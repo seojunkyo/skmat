@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta http-equiv="Expires" content="-1">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="No-Cache">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Somalife">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+<title>SKMAT</title>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<link href="./sklife.css" rel="stylesheet">
+<!-- <link rel="shortcut icon" type="image/x-icon" href="./favicon.ico">
+<link rel="apple-touch-icon" sizes="152x152" href="apple-touch-icon.png"> -->
+
+<script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+
+</head>
+
+<body>
+	<div id="wrapper">
+		<div id="sidebar-wrapper">
+			<ul class="sidebar-nav">
+				<li class="sidebar-brand"><a>SK 추천 맛집</a></li>
+				<div
+					style="height: 1px; width: 100%; background: #333; margin-bottom: 1em"></div>
+				<div>
+					<p class="tag-title">
+						현재 필터 | <a id="init-param" class="tag init" href="#">초기화</a>
+					</p>
+					<p class="tag-group">
+						<span id="current-filter" class="tag"></span>
+					</p>
+					<div
+						style="height: 1px; width: 100%; background: #333; margin-bottom: 1em"></div>
+					<p class="tag-title">음식점</p>
+					<p class="tag-group">
+						<a id="food-korean" class="tag" href="#">#한식</a> <a
+							id="food-chinese" class="tag" href="#">#중식</a> <a
+							id="food-japanese" class="tag" href="#">#일식</a> <a id="food-eng"
+							class="tag" href="#">#양식</a> <a id="food-fastfood" class="tag"
+							href="#">#패스트푸드</a> <a id="food-snack" class="tag" href="#">#분식</a>
+						<a id="food-etc" class="tag" href="#">#기타</a>
+					</p>
+					<p class="tag-title">데이터 소스</p>
+					<p class="tag-group">
+						<a id="data-somalife" class="tag" href="#">sklife</a> <a
+							id="data-somat" class="tag" href="#">#skmat</a> <a
+							id="data-baedong" class="tag" href="#">#배동여지도</a>
+					<p class="tag-title">가격대</p>
+					<p class="tag-group">
+						<a id="price-high" class="tag" href="#">#비싼</a> <a
+							id="price-normal" class="tag" href="#">#보통</a> <a
+							id="price-cheap" class="tag" href="#">#싼</a>
+					</p>
+					<p class="tag-title">맛</p>
+					<p class="tag-group">
+						<a id="taste-spicy" class="tag" href="#">#매운</a> <a
+							id="taste-nomat" class="tag" href="#">#노맛</a>
+					</p>
+					<p class="tag-title">기타</p>
+					<p class="tag-group">
+						<a id="etc-mentoring" class="tag" href="#">#멘토링추천</a> <a
+							id="etc-boolbaek" class="tag" href="#">#불백</a> <a id="etc-soup"
+							class="tag" href="#">#국물</a> <a id="etc-foodcourt" class="tag"
+							href="#">#푸드코트</a> <a id="etc-24hr" class="tag" href="#">#24시간</a>
+					</p>
+				</div>
+				<div
+					style="height: 1px; width: 100%; background: #333; margin-bottom: 1em"></div>
+				<div>
+					<p class="tag-title">문화</p>
+					<p class="tag-group">
+						<a id="culture-movie" class="tag" href="#">#영화관</a> <a
+							id="culture-sing" class="tag" href="#">#노래방</a> <a
+							id="culture-park" class="tag" href="#">#공원</a>
+					</p>
+				</div>
+				<div
+					style="height: 1px; width: 100%; background: #333; margin-bottom: 1em"></div>
+				<div>
+					<p class="tag-title">생활</p>
+					<p class="tag-group">
+						<a id="life-hospital" class="tag" href="#">#병원</a> <a
+							id="life-pharmacy" class="tag" href="#">#약국</a>
+					</p>
+				</div>
+				<div style="height: 2em;"></div>
+			</ul>
+		</div>
+		<!-- Page Content -->
+		<div id="page-content-wrapper">
+			<div style="width: 100%; height: 50%; position: relative;">
+				<div id="map"
+					style="width: 100%; height: 100%; position: absolute; top: 0px; left: 0px;">
+				</div>
+				<div id="menu-toggle"
+					style="width: 3.3em; height: 3.3em; position: absolute; top: 0px; left: 0px; background: rgba(0, 0, 0, 0.5); z-index: 100;">
+					<center>
+						<span class="glyphicon glyphicon-option-vertical"
+							style="color: #fff; font-size: 1.2em; line-height: 2.5em;"></span>
+					</center>
+				</div>
+			</div>
+			<div id="query_result" class="fill"></div>
+		</div>
+		<!-- /#page-content-wrapper -->
+
+	</div>
+	<!-- /#wrapper -->
+
+	<script type="text/javascript"
+		src="//apis.daum.net/maps/maps3.js?apikey=36f967dd933b651dfab33371f7768cbf"></script>
+	<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+	<!-- Menu Toggle Script -->
+	<script>
+		$("#menu-toggle").click(function(e) {
+			e.preventDefault();
+			$("#wrapper").toggleClass("toggled");
+		});
+		$("#init-param").click(function(e) {
+			e.preventDefault();
+			clearParam();
+		});
+	</script>
+
+	<script>
+		var swCenterPos = {
+			x : 127.108063,
+			y : 37.366134
+		};
+		var container = document.getElementById('map');
+		var options = {
+			center : new daum.maps.LatLng(swCenterPos.y, swCenterPos.x),
+			level : 3
+		};
+
+		var map = new daum.maps.Map(container, options);
+		var mapTypeControl = new daum.maps.MapTypeControl();
+		var zoomControl = new daum.maps.ZoomControl();
+		map.addControl(zoomControl, daum.maps.ControlPosition.RIGHT);
+	</script>
+
+</body>
+</html>
